@@ -1,24 +1,34 @@
-Repository template for our packages
+# Above The Fold Tracker
 
-# Usage
-When creating a new repository for a package or a plugin, select this repository as the template. It will initialize the new repository with all the structure & files contained in the template.
+This WordPress plugin tracks which hyperlinks are visible above the fold on the homepage when a visitor lands. It captures screen size and link visibility and stores that data for 7 days. A dashboard page in the WordPress admin displays this data for analysis.
 
-# Get started
-- Have a mysql DB ready and a user.
-- Have `svn` installed.
-- Run `composer install`
-- Run `bash bin/install-wp-tests.sh wordpress_test mysql_user mysql_password localhost latest`
-- Run `composer run-tests`
-- Run `composer phpcs`
-- You can install the plugin on your website.
+## Features
 
-# Content
-* `bin/install-wp-tests.sh`: installer for WordPress tests suite
-* `.editorconfig`: config file for your IDE to follow our coding standards
-* `.gitattributes`: list of directories & files excluded from export
-* `.gitignore`: list of directories & files excluded from versioning
-* `.travis.yml`: Travis-CI configuration file
-* `composer.json`: Base composer file to customize for the project
-* `LICENSE`: License file using GPLv3
-* `phpcs.xml`: Base PHP Code Sniffer configuration file to customize for the project
-* `README.md`: The readme displayed on Github, to customize for the project
+-  Detects visible links above the fold on homepage visits
+-  Captures screen width and height
+-  Only tracks anonymous (non-logged-in) users
+-  Stores data securely in the database
+-  Provides an admin dashboard to view tracked data
+-  Automatically purges data older than 7 days
+-  Built using a modern PSR-compliant plugin architecture
+
+## Requirements
+
+- PHP 7.3 or higher
+- WordPress 6.0 or higher
+
+## Installation
+
+1. Clone or download this repository into `wp-content/plugins/above-the-fold-tracker`
+2. Run `composer install` inside the plugin directory
+3. Activate the plugin from your WordPress admin
+
+## Development
+
+- All PHP code is in `/src`
+- JS scripts are in `/src/assets/js`
+- Templates are in `/src/View`
+
+## Author
+
+Your Name – [yourwebsite.com](https://yourwebsite.com)

@@ -1,42 +1,67 @@
 <?php
+
 /**
- * Plugin Template
- *
- * @package     TO FILL
- * @author      Mathieu Lamiot
- * @copyright   TO FILL
- * @license     GPL-2.0-or-later
- *
- * @wordpress-plugin
- * Plugin Name: TO FILL
- * Version:     TO FILL
- * Description: TO FILL
- * Author:      Mathieu Lamiot
+ * Plugin Name: Above The Fold Tracker
+ * Description: Tracks which homepage hyperlinks were seen above the fold by anonymous visitors in the last 7 days.
+ * Version: 1.0.0
+ * Author: Yacine Bellouche
  */
 
-namespace ROCKET_WP_CRAWLER;
+use AboveTheFoldTracker\Service\TrackerEndpoint;
+use AboveTheFoldTracker\Service\AdminPage;
+use AboveTheFoldTracker\Service\Cleanup;
 
-define( 'ROCKET_CRWL_PLUGIN_FILENAME', __FILE__ ); // Filename of the plugin, including the file.
+defined('ABSPATH') || exit;
 
-if ( ! defined( 'ABSPATH' ) ) { // If WordPress is not loaded.
-	exit( 'WordPress not loaded. Can not load the plugin' );
-}
-
-// Load the dependencies installed through composer.
-require_once __DIR__ . '/src/plugin.php';
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/src/support/exceptions.php';
 
-// Plugin initialization.
-/**
- * Creates the plugin object on plugins_loaded hook
- *
- * @return void
- */
-function wpc_crawler_plugin_init() {
-	$wpc_crawler_plugin = new Rocket_Wpc_Plugin_Class();
-}
-add_action( 'plugins_loaded', __NAMESPACE__ . '\wpc_crawler_plugin_init' );
+// Register activation and deactivation hooks.
+register_activation_hook(__FILE__, array(TrackerEndpoint::class, 'create_table'));
+register_deactivation_hook(__FILE__, array(Cleanup::class, 'deactivate'));
 
-register_activation_hook( __FILE__, __NAMESPACE__ . '\Rocket_Wpc_Plugin_Class::wpc_activate' );
-register_uninstall_hook( __FILE__, __NAMESPACE__ . '\Rocket_Wpc_Plugin_Class::wpc_uninstall' );
+// Init
+add_action(
+	'init',
+	function () {
+		Cleanup::init();
+		TrackerEndpoint::register_hooks();
+	}
+);
+
+// Admin menu.
+add_action(
+	'admin_menu',
+	function () {
+		add_menu_page(
+			'Above The Fold Data',
+			'Above The Fold',
+			'manage_options',
+			'above-the-fold',
+			array(AdminPage::class, 'render')
+		);
+	}
+);
+
+// Enqueue JS on homepage for visitors only.
+add_action(
+	'wp_enqueue_scripts',
+	function () {
+		if (is_front_page() && ! is_user_logged_in()) {
+			wp_enqueue_script(
+				'above-fold-js',
+				plugin_dir_url(__FILE__) . 'src/assets/js/track-links.js',
+				array(),
+				null,
+				true
+			);
+			wp_localize_script(
+				'above-fold-js',
+				'AboveFoldTracker',
+				array(
+					'ajax_url' => admin_url('admin-ajax.php'),
+					'nonce'    => wp_create_nonce('above_fold_nonce'),
+				)
+			);
+		}
+	}
+);

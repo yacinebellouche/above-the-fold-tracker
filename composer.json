@@ -1,43 +1,51 @@
 {
-    "name"          : "wp-media/package-template",
-    "description"   : "WP Plugin template for WP Media.",
-    "type"          : "project",
-    "keywords"      : ["wordpress", "wp", "plugin"],
-    "homepage"      : "https://github.com/wp-media/package-template",
-    "license"       : "GPL-2.0+",
-    "authors"       : [
-        {
-            "name": "Mathieu Lamiot",
-            "email": "mathieu@wp-media.me"
-        }
-    ],
-    "require"       : {
-        "php" : ">=7.3"
-    },
-    "require-dev":{
-        "raveren/kint": "~1.0",
-        "filp/whoops": "~2.0",
+	"name": "wp-media/package-template",
+	"description": "WP Plugin template for WP Media.",
+	"type": "project",
+	"keywords": [
+		"wordpress",
+		"wp",
+		"plugin"
+	],
+	"homepage": "https://github.com/wp-media/package-template",
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "Mathieu Lamiot",
+			"email": "mathieu@wp-media.me"
+		}
+	],
+	"require": {
+		"php": ">=7.3"
+	},
+	"require-dev": {
 		"php": "^7.3 || ^8",
 		"brain/monkey": "^2.0",
-		"dealerdirect/phpcodesniffer-composer-installer": "^1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.1",
+		"filp/whoops": "~2.0",
+		"phpcompatibility/php-compatibility": "^9.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.0",
+		"phpcsstandards/phpcsutils": "^1.0@dev",
 		"phpunit/phpunit": "^5.7 || ^7 || ^8",
+		"raveren/kint": "~1.0",
+		"sirbrillig/phpcs-variable-analysis": "dev-master",
+		"squizlabs/php_codesniffer": "^3.0@dev",
 		"wp-coding-standards/wpcs": "dev-develop",
 		"wp-media/phpunit": "^3"
-    },
-    "autoload": {},
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    },
-    "config":{
+	},
+	"autoload": {},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0-dev"
+		}
+	},
+	"config": {
 		"sort-packages": true,
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
-    },
-    "minimum-stability": "dev",
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"minimum-stability": "dev",
 	"scripts": {
 		"test-unit": "vendor/bin/phpunit --testsuite unit --colors=always --configuration \"Tests/Unit/phpunit.xml.dist\"",
 		"test-integration": "vendor/bin/phpunit --testsuite integration --colors=always --configuration \"Tests/Integration/phpunit.xml.dist\"",
