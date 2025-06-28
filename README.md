@@ -31,4 +31,4 @@ This WordPress plugin tracks which hyperlinks are visible above the fold on the 
 
 ## Author
 
-Your Name – [yourwebsite.com](https://yourwebsite.com)
+Yacine Bellouche – [yacinebellouche.site](https://yacinebellouche.site)
